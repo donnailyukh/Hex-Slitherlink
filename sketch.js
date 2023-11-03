@@ -10,7 +10,7 @@ function setup(){
   w = min(windowWidth, windowHeight);
   margin = 30;
   createCanvas(w, w);
-  game = new Game(7, w, margin);
+  game = new Game(3, w, margin);
 }
 
 function drawPointGrid(){
@@ -55,6 +55,8 @@ function draw(){
   
   drawBoard();
   
+  print(game.verticies);
+  print(game.lines);
 
-  //noLoop()
+  noLoop()
 }

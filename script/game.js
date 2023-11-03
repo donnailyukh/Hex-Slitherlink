@@ -7,27 +7,46 @@ class Game {
     this._makeGrid();
   }
   
+  //todo: make a hex class that holds 6 lines and more properties
   _makeHexPointsLines(cX, cY, s) {
-    const v1 = new hexVertex(cX, cY + s);
-    const v2 = new hexVertex(cX + s*Math.sqrt(3)*0.5, cY + s*0.5);
-    const v3 = new hexVertex(cX + s*Math.sqrt(3)*0.5, cY - s*0.5);
-    const v4 = new hexVertex(cX, cY - s);
-    const v5 = new hexVertex(cX - s*Math.sqrt(3)*0.5, cY - s*0.5);
-    const v6 = new hexVertex(cX - s*Math.sqrt(3)*0.5, cY + s*0.5);
+    const currHexVerticies = [
+      new hexVertex(cX, cY + s),
+      new hexVertex(cX + s*Math.sqrt(3)*0.5, cY + s*0.5),
+      new hexVertex(cX + s*Math.sqrt(3)*0.5, cY - s*0.5),
+      new hexVertex(cX, cY - s),
+      new hexVertex(cX - s*Math.sqrt(3)*0.5, cY - s*0.5),
+      new hexVertex(cX - s*Math.sqrt(3)*0.5, cY + s*0.5),
+    ];
 
-    this.verticies.add(v1);
-    this.verticies.add(v2);
-    this.verticies.add(v3);
-    this.verticies.add(v4);
-    this.verticies.add(v5);
-    this.verticies.add(v6);
+    
+    for (var i = 0; i < currHexVerticies.length; i++) {
+      //if vertex with current points already exists, update the 
+      //currHexVerticies list to contain the correct object for line creation
+      const newV = currHexVerticies[i];
+      const oldV = this.verticies.getValue(newV);
+      if (oldV === null) {
+        this.verticies.add(newV);
+      }
+      else {
+        currHexVerticies[i] = oldV;
+      }
+    }
 
-    this.lines.add(new hexLine(v1, v2));
-    this.lines.add(new hexLine(v2, v3));
-    this.lines.add(new hexLine(v3, v4));
-    this.lines.add(new hexLine(v4, v5));
-    this.lines.add(new hexLine(v5, v6));
-    this.lines.add(new hexLine(v6, v1));
+    //console.log(currHexVerticies);
+    
+    for (var i = 0; i < currHexVerticies.length; i++) {
+      const v1 = currHexVerticies[i];
+      const v2 = i == currHexVerticies.length - 1 ? currHexVerticies[0] : currHexVerticies[i + 1];
+      const newL = new hexLine(v1, v2);
+      const oldL = this.lines.getValue(newL);
+      if (oldL === null) {
+        this.lines.add(newL);
+      }
+      else {
+        //update hex object with proper current line objects
+      }
+    }
+
 
   }
 
