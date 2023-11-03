@@ -3,6 +3,13 @@ html, body {
   padding: 0;
   background: #1a1236;
 }
+
+main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 canvas {
   display: block;
 }

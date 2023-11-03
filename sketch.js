@@ -7,7 +7,7 @@ var w;
 var margin;
 
 function setup(){
-  w = 600;
+  w = min(windowWidth, windowHeight);
   margin = 30;
   createCanvas(w, w);
   game = new Game(7, w, margin);
@@ -41,10 +41,20 @@ function drawBoard() {
   //drawNumbers();
 }
 
+//window resize will be tough because point and line objects depend on coordinates
+//so when game is being played, this would mess up logic
+//fix later if this gets thought through properly.
+/*function windowResized() {
+  w = min(windowWidth, windowHeight);
+  resizeCanvas(w, w);
+  game.redraw(w);
+}*/
+
 function draw(){
   background(dark);
   
   drawBoard();
   
-  noLoop()
+
+  //noLoop()
 }
