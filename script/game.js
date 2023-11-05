@@ -4,50 +4,56 @@ class Game {
     this._gridWidth = w - 2 * margin;
     this.verticies = new objSet();
     this.lines = new objSet();
+    this.hexagons = new objSet();
     this._makeGrid();
   }
   
   //todo: make a hex class that holds 6 lines and more properties
   _makeHexPointsLines(cX, cY, s) {
-    const currHexVerticies = [
-      new hexVertex(cX, cY + s),
-      new hexVertex(cX + s*Math.sqrt(3)*0.5, cY + s*0.5),
-      new hexVertex(cX + s*Math.sqrt(3)*0.5, cY - s*0.5),
+    const hexVerticies = [
       new hexVertex(cX, cY - s),
-      new hexVertex(cX - s*Math.sqrt(3)*0.5, cY - s*0.5),
+      new hexVertex(cX + s*Math.sqrt(3)*0.5, cY - s*0.5),
+      new hexVertex(cX + s*Math.sqrt(3)*0.5, cY + s*0.5),
+      new hexVertex(cX, cY + s),
       new hexVertex(cX - s*Math.sqrt(3)*0.5, cY + s*0.5),
+      new hexVertex(cX - s*Math.sqrt(3)*0.5, cY - s*0.5),
     ];
 
     
-    for (var i = 0; i < currHexVerticies.length; i++) {
+    for (var i = 0; i < hexVerticies.length; i++) {
       //if vertex with current points already exists, update the 
-      //currHexVerticies list to contain the correct object for line creation
-      const newV = currHexVerticies[i];
+      //hexVerticies list to contain the correct object for line creation
+      const newV = hexVerticies[i];
       const oldV = this.verticies.getValue(newV);
       if (oldV === null) {
         this.verticies.add(newV);
       }
       else {
-        currHexVerticies[i] = oldV;
+        hexVerticies[i] = oldV;
       }
     }
 
-    //console.log(currHexVerticies);
+    //console.log(hexVerticies);
+    const hexLines = [];
     
-    for (var i = 0; i < currHexVerticies.length; i++) {
-      const v1 = currHexVerticies[i];
-      const v2 = i == currHexVerticies.length - 1 ? currHexVerticies[0] : currHexVerticies[i + 1];
+    for (var i = 0; i < hexVerticies.length; i++) {
+      const v1 = hexVerticies[i];
+      const v2 = i == hexVerticies.length - 1 ? hexVerticies[0] : hexVerticies[i + 1];
       const newL = new hexLine(v1, v2);
       const oldL = this.lines.getValue(newL);
       if (oldL === null) {
         this.lines.add(newL);
+        hexLines.push(newL);
       }
       else {
-        //update hex object with proper current line objects
+        //update list for hex object with current line objects
+        hexLines.push(oldL);
       }
     }
-
-
+    
+    const newHex = new hex(hexVerticies, hexLines);
+    //console.log(newHex);
+    this.hexagons.add(newHex);
   }
 
   _makeGrid() {

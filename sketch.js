@@ -57,6 +57,7 @@ function draw(){
   
   print(game.verticies);
   print(game.lines);
+  print(game.hexagons);
 
   noLoop()
 }
